@@ -1,0 +1,12 @@
+setting,tracks,egg1_detected,egg1_shift_px,egg2_detected,egg2_shift_px
+baseline,2,312,0.0,170,0.0
+L_min=165,2,314,0.1,171,0.2
+L_min=185,2,313,0.2,170,0.2
+chroma_max=22,2,312,0.0,170,0.0
+chroma_max=34,2,312,0.0,170,0.0
+solidity_min=0.84,2,312,0.0,170,0.0
+solidity_min=0.92,2,312,0.0,170,0.0
+ellipse_iou_min=0.72,3,223,0.0,170,0.0
+ellipse_iou_min=0.88,2,309,0.0,169,0.0
+area_min=0.005,2,312,0.0,173,0.0
+area_min=0.012,2,312,0.0,169,0.0

@@ -1,0 +1,91 @@
+{
+  "frozen_at": "2026-10-14T17:52:58",
+  "final_trial": "T5",
+  "models_sha256": "04fe6198651b38474d903e382dc57f42b0b5dfdb54be76516eb982d8dfce583f",
+  "split": {
+    "dev_images": 128,
+    "hash_threshold": 8,
+    "group_split_seed": 43
+  },
+  "proposals": {
+    "channels": [
+      "L",
+      "a",
+      "b",
+      "S",
+      "whiteness(L-1.5*chroma)"
+    ],
+    "threshold": "Otsu, both polarities",
+    "gaussian_blur": 7,
+    "morphology": "open+close 9x9 ellipse",
+    "min_area_frac": 0.02,
+    "fill_holes": true
+  },
+  "features": [
+    "area",
+    "solidity",
+    "ellipse_fit",
+    "border_frac",
+    "edge",
+    "contrast",
+    "abs_contrast",
+    "texture",
+    "color_std",
+    "center_dist",
+    "mean_L",
+    "chroma",
+    "circularity",
+    "consensus70",
+    "consensus50",
+    "L_hi",
+    "L_lo",
+    "a_hi",
+    "a_lo",
+    "b_hi",
+    "b_lo",
+    "S_hi",
+    "S_lo",
+    "W_hi",
+    "W_lo",
+    "refined"
+  ],
+  "feature_resolution": 320,
+  "ranker": {
+    "type": "RandomForestRegressor",
+    "n_estimators": 300,
+    "min_samples_leaf": 3,
+    "random_state": 0,
+    "target": "IoU with GT egg"
+  },
+  "refinement": {
+    "method": "GrabCut",
+    "iterations": 4,
+    "sure_fg_erosion_px": [
+      21,
+      11
+    ],
+    "probable_bg_dilation_px": 29,
+    "topk": 6,
+    "work_resolution": 320
+  },
+  "selection": {
+    "first_always_kept": true,
+    "others_if_score_ge": 0.5,
+    "nms_iou": 0.3
+  },
+  "dev_scores_out_of_fold": {
+    "trial": "T5",
+    "description": "T4 + GrabCut-refined versions of the top-6 candidates added to the pool, RF re-ranks raw+refined (5-fold grouped CV), thr_add=0.5",
+    "precision": 0.7241,
+    "recall": 0.7095,
+    "F1_at_0_5": 0.7167,
+    "mean_inst_IoU": 0.8134,
+    "fg_IoU": 0.6512,
+    "fg_Dice": 0.7445,
+    "count_MAE": 0.1016,
+    "sec": 0.6,
+    "note": "dev scores are out-of-fold",
+    "decision": "KEEP (FINAL)",
+    "reason": "GrabCut-refined candidates added to the pool: oracle IoU>=0.8 rose 45% -> 53%, matched-egg IoU 0.80 -> 0.81, F1 unchanged. Frozen as the final method."
+  }
+}

@@ -1,0 +1,7 @@
+work/
+*.pth
+*.joblib
+*.mp4
+__pycache__/
+.ipynb_checkpoints/
+.env

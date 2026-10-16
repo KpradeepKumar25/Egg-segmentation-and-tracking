@@ -1,0 +1,36 @@
+{
+  "eval": {
+    "precision": 0.7058823529411765,
+    "recall": 0.7058823529411765,
+    "F1_at_0_5": 0.7058823529411765,
+    "F1_at_0_75": 0.47058823529411764,
+    "fg_IoU": 0.674012218155471,
+    "fg_Dice": 0.7720516685670836,
+    "count_MAE": 0.0625,
+    "exact_count_acc": 0.9375,
+    "false_positive_regions": 4
+  },
+  "ci": {
+    "F1_at_0_5": [
+      0.5454545454545455,
+      0.8493150684931505
+    ],
+    "fg_IoU": [
+      0.5846029844098357,
+      0.7550403718359527
+    ],
+    "fg_Dice": [
+      0.692420239512951,
+      0.8399218784420477
+    ]
+  },
+  "taxonomy": {
+    "good (IoU>=0.75)": 16,
+    "boundary error (0.5<=IoU<0.75)": 8,
+    "leak (region far larger than egg)": 6,
+    "mislocalised": 3,
+    "merge (one region covers 2+ eggs)": 1
+  },
+  "n_images": 32,
+  "n_gt": 34
+}
