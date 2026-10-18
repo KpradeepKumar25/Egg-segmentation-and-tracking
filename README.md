@@ -120,6 +120,17 @@ docs/        build_report.py
 - **Video:** there are no ground-truth identity labels, so identity was checked by an audit and by inspecting frames. "No swaps found" is not proof. Egg #1 is undetected for up to 4.1 s while fully hidden by the hand. The segmenter is tuned to this scene, and one parameter (`ellipse_iou_min`) is fragile when loosened.
 - **Split:** one random draw (seed 43); a different seed would give different eval images.
 
+## Conclusion
+
+This project went from raw photos to tracked eggs in a video in four steps, and every number above comes from a split that was fixed before the held-out images were touched.
+
+- **Task 1:** prompting SAM with OWLv2 text detections gave usable masks for all 160 images (182 eggs). About 18% of the images needed a manual fix, and each fix is recorded in the repo.
+- **Task 2:** a classical propose-and-rank segmenter reached F1@0.5 = 0.717 on dev. Learning the ranking, not the thresholding, was the biggest gain (0.49 to 0.68). GrabCut refinement then improved boundary quality (matched IoU 0.80 to 0.81) but did not improve detection.
+- **Task 3:** on the 32 held-out images it scored F1@0.5 = 0.706 (95% CI 0.545-0.849) with the egg count correct in 93.8% of images. The main weakness is leaking into pale surroundings, so it is good at finding eggs and weaker at outlining them tightly (F1@0.75 = 0.471).
+- **Task 4:** two eggs are tracked through occlusion and hand movement with stable IDs. The audit exposed an ID swap in the first tracker, and guided "in hand" re-detection in v2 fixed it.
+
+**What I would do next:** add a small learned model for the boundary, since colour and edge cues cannot tell a pale egg from a pale wall. I would also hand-label identities in a few video segments to measure ID switches numerically, and test on more videos than this one scene.
+
 ## AI tool disclosure
 
 Claude (Anthropic) was used as a coding and analysis assistant: drafting and debugging code, suggesting experiments, and writing documentation. The author ran the experiments, reviewed the Task 1 masks by hand, made the keep/discard decisions, and is responsible for the results.
