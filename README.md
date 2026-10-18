@@ -8,6 +8,7 @@ Find every egg in a set of photos, build a classical (non-deep-learning) segment
 |---|---|
 | **Report (PDF)** | [`report/Egg_CV_Report.pdf`](report/Egg_CV_Report.pdf) |
 | **Tracking video (public)** | [Google Drive](https://drive.google.com/file/d/10tqBCNuAKUDZLcVYgcEYjmvncy57eFi1/view?usp=sharing) |
+| **Full Colab notebook with all outputs** | [Google Drive](https://drive.google.com/file/d/1TsX78iSh3FxZYSfbiZrdpNOuTr-AnJgK/view?usp=sharing) (about 80 MB, so hosted on Drive instead of GitHub) |
 | **Dataset** | Roboflow `egg-vzhtr`, version 2, 160 images of 640 x 640 |
 | **Source video** | https://www.youtube.com/watch?v=Y4JyV94y2_A |
 
@@ -85,7 +86,7 @@ export ROBOFLOW_API_KEY=...          # never commit this; on Colab use Secrets
 ```
 
 The notebook [`notebooks/run_all_colab.ipynb`](notebooks/run_all_colab.ipynb) runs everything below, cell by cell, on Colab.
-All experiments, including the failed ones, are in [`notebooks/experiments_full_colab.ipynb`](notebooks/experiments_full_colab.ipynb).
+All experiments, including the failed ones, are in [`notebooks/experiments_full_colab.ipynb`](notebooks/experiments_full_colab.ipynb) (outputs cleared). The original notebook as I ran it on Colab, with all saved outputs (about 80 MB, so hosted on Drive): [Google Drive](https://drive.google.com/file/d/1TsX78iSh3FxZYSfbiZrdpNOuTr-AnJgK/view?usp=sharing).
 
 ## Run
 
