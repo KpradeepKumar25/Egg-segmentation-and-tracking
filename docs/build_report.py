@@ -108,10 +108,18 @@ s += [P("6. Limitations", h1),
           "Classical segmentation leaks into pale surroundings (6 of 34 eggs). A small learned model would likely fix most of these, but Task 2 restricts the method to classical vision.",
           "The dev/eval split is one random draw (seed 43); a different seed would give different eval images and slightly different scores."])]
 
-s += [P("7. AI tool disclosure", h1),
+s += [P("7. Conclusion", h1),
+      P("I took the project from raw photos to tracked eggs in a video in four steps. Every reported number comes from a dev/eval split that I fixed before the held-out images were used."),
+      bl(["<b>Task 1:</b> prompting SAM with OWLv2 text detections gave usable masks for all 160 images (182 eggs). About 18% of the images (29) needed a manual fix, and each fix is recorded in the repository.",
+          "<b>Task 2:</b> a classical propose-and-rank segmenter reached F1@0.5 = 0.717 on dev. Learning the ranking, not the thresholding, gave the biggest gain (F1 0.49 to 0.68). GrabCut refinement improved boundary quality (matched IoU 0.80 to 0.81) but not detection.",
+          f"<b>Task 3:</b> on the 32 held-out images the method scored F1@0.5 = {E['F1_at_0_5']:.3f} (95% CI {CI['F1_at_0_5'][0]:.2f}-{CI['F1_at_0_5'][1]:.2f}), with the egg count correct in {E['exact_count_acc']*100:.1f}% of images. It is good at finding eggs and weaker at outlining them tightly (F1@0.75 = {E['F1_at_0_75']:.3f}); the main failure is leaking into pale surroundings.",
+          "<b>Task 4:</b> two eggs are tracked through occlusion and hand movement with stable IDs. My audit exposed an ID swap in the first tracker, and guided 'in hand' re-detection in v2 fixed it."]),
+      P("<b>What I would do next:</b> add a small learned model for the boundary, since colour and edge cues cannot tell a pale egg from a pale wall; hand-label identities in a few video segments to measure ID switches numerically; and test on more videos than this one scene.")]
+
+s += [P("8. AI tool disclosure", h1),
       P("I used Claude (Anthropic) as an assistant for writing and debugging code, suggesting experiments (for example the polarity-agnostic candidates and the in-hand re-detection), checking results and drafting this report. I ran the experiments in Colab, reviewed the Task 1 masks by hand, made the keep/discard decisions, and can explain each method. Claude made one error along the way (it declared v1 free of ID swaps before the side-by-side check); my audit caught it and it is reported in section 5.")]
 
-s += [P("8. Reproducing the results", h1),
+s += [P("9. Reproducing the results", h1),
       Paragraph("Repository layout, setup and run commands are in the README of the repository. In short: <font face='Courier'>pip install -r requirements.txt</font>, set <font face='Courier'>ROBOFLOW_API_KEY</font> as an environment variable (never committed), then run <font face='Courier'>scripts/01_make_split.py</font>, <font face='Courier'>02_task1_sam_labels.py</font> (GPU), <font face='Courier'>03_train_classical.py</font>, <font face='Courier'>04_eval_task3.py</font> and <font face='Courier'>run_task4_video.py</font>. A Colab version is in <font face='Courier'>notebooks/run_all_colab.ipynb</font>. Frozen outputs of the submitted run are in <font face='Courier'>results/</font>.", ParagraphStyle("left8", parent=body, alignment=TA_LEFT))]
 SimpleDocTemplate(OUT, pagesize=A4, leftMargin=18*mm, rightMargin=18*mm, topMargin=16*mm, bottomMargin=17*mm, title="Egg segmentation and tracking - report", author="K Pradeep Kumar").build(s, onFirstPage=footer, onLaterPages=footer)
 print("built")
