@@ -85,6 +85,7 @@ export ROBOFLOW_API_KEY=...          # never commit this; on Colab use Secrets
 ```
 
 The notebook [`notebooks/run_all_colab.ipynb`](notebooks/run_all_colab.ipynb) runs everything below, cell by cell, on Colab.
+All experiments, including the failed ones, are in [`notebooks/experiments_full_colab.ipynb`](notebooks/experiments_full_colab.ipynb).
 
 ## Run
 
@@ -107,7 +108,7 @@ scripts/     01_make_split.py  02_task1_sam_labels.py  03_train_classical.py
              04_eval_task3.py  run_task4_video.py
 results/     split/  task1/  task2/  task3/  task4/
 report/      Egg_CV_Report.pdf
-notebooks/   run_all_colab.ipynb
+notebooks/   run_all_colab.ipynb  experiments_full_colab.ipynb
 docs/        build_report.py
 ```
 
@@ -133,4 +134,4 @@ This project went from raw photos to tracked eggs in a video in four steps, and 
 
 ## AI tool disclosure
 
-Claude (Anthropic) was used as a coding and analysis assistant: drafting and debugging code, suggesting experiments, and writing documentation. The author ran the experiments, reviewed the Task 1 masks by hand, made the keep/discard decisions, and is responsible for the results.
+Claude (Anthropic) was used as a coding and analysis assistant: drafting and debugging code, suggesting experiments, and writing documentation. I ran the experiments, reviewed the Task 1 masks by hand, made the keep/discard decisions, and am responsible for the results.
