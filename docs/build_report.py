@@ -8,6 +8,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 from PIL import Image as PI
 
 R = "/home/claude/repo/egg-cv-project/results"; OUT = "/home/claude/repo/egg-cv-project/report/Egg_CV_Report.pdf"
+REPO = "https://github.com/KpradeepKumar25/Egg-segmentation-and-tracking"
 LINK = "https://drive.google.com/file/d/10tqBCNuAKUDZLcVYgcEYjmvncy57eFi1/view?usp=sharing"
 INK = colors.HexColor("#1f2937"); ACC = colors.HexColor("#111111"); SOFT = colors.HexColor("#f2f2f2"); GRID = colors.HexColor("#c8c8c8")
 ss = getSampleStyleSheet()
@@ -34,7 +35,7 @@ def footer(c, d):
 
 ev = json.load(open(f"{R}/task3/eval_metrics.json")); E = ev["eval"]; CI = ev["ci"]; log = pd.read_csv(f"{R}/task2/experiment_log.csv")
 s = []
-s += [P("Egg segmentation and tracking", title), P("Report for the Nosh Robotics CV Intern Task. Author: K Pradeep Kumar.", body), Spacer(1, 4)]
+s += [P("Egg segmentation and tracking", title), Table([[P("<b>Task</b>", body), P("Nosh Robotics CV Intern Task", body)], [P("<b>Author</b>", body), P("K Pradeep Kumar", body)], [P("<b>Repository</b>", body), P(f"<a href='{REPO}' color='#1a1a1a'>{REPO}</a>", body)]], colWidths=[22*mm, 148*mm], style=TableStyle([("VALIGN",(0,0),(-1,-1),"TOP"),("LINEBELOW",(0,0),(-1,-1),0.4,GRID),("LINEABOVE",(0,0),(-1,0),0.4,GRID),("TOPPADDING",(0,0),(-1,-1),2),("BOTTOMPADDING",(0,0),(-1,-1),0)]), hAlign="LEFT"), Spacer(1, 4)]
 s += [P(f"<b>Summary.</b> (1) I made reference masks for all 160 images with OWLv2 + SAM ViT-H and reviewed them by hand. (2) I built a classical segmenter (no deep learning at inference) on a leak-free development split of 128 images; my experiment log covers six trials including the failures. (3) On the 32 held-out images it reaches F1@0.5 = {E['F1_at_0_5']:.3f} (95% CI {CI['F1_at_0_5'][0]:.2f}-{CI['F1_at_0_5'][1]:.2f}) against the Task 1 masks. (4) I adapted the same ideas to the video, where two eggs are tracked with stable IDs through occlusion and hand movements. "
         f"<b>Video output:</b> <a href='{LINK}' color='#1a1a1a'>{LINK}</a>", call)]
 s += [tbl([["Task", "What was delivered", "Headline result"],
@@ -120,6 +121,6 @@ s += [P("8. AI tool disclosure", h1),
       P("I used Claude (Anthropic) as an assistant for writing and debugging code, suggesting experiments (for example the polarity-agnostic candidates and the in-hand re-detection), checking results and drafting this report. I ran the experiments in Colab, reviewed the Task 1 masks by hand, made the keep/discard decisions, and can explain each method. Claude made one error along the way (it declared v1 free of ID swaps before the side-by-side check); my audit caught it and it is reported in section 5.")]
 
 s += [P("9. Reproducing the results", h1),
-      Paragraph("Repository layout, setup and run commands are in the README of the repository. In short: <font face='Courier'>pip install -r requirements.txt</font>, set <font face='Courier'>ROBOFLOW_API_KEY</font> as an environment variable (never committed), then run <font face='Courier'>scripts/01_make_split.py</font>, <font face='Courier'>02_task1_sam_labels.py</font> (GPU), <font face='Courier'>03_train_classical.py</font>, <font face='Courier'>04_eval_task3.py</font> and <font face='Courier'>run_task4_video.py</font>. A Colab version is in <font face='Courier'>notebooks/run_all_colab.ipynb</font>. Frozen outputs of the submitted run are in <font face='Courier'>results/</font>.", ParagraphStyle("left8", parent=body, alignment=TA_LEFT))]
+      Paragraph(f"The code is in the public GitHub repository <a href='{REPO}' color='#1a1a1a'>{REPO}</a>. Repository layout, setup and run commands are in its README. In short: <font face='Courier'>pip install -r requirements.txt</font>, set <font face='Courier'>ROBOFLOW_API_KEY</font> as an environment variable (never committed), then run <font face='Courier'>scripts/01_make_split.py</font>, <font face='Courier'>02_task1_sam_labels.py</font> (GPU), <font face='Courier'>03_train_classical.py</font>, <font face='Courier'>04_eval_task3.py</font> and <font face='Courier'>run_task4_video.py</font>. A Colab version is in <font face='Courier'>notebooks/run_all_colab.ipynb</font>. Frozen outputs of the submitted run are in <font face='Courier'>results/</font>.", ParagraphStyle("left8", parent=body, alignment=TA_LEFT))]
 SimpleDocTemplate(OUT, pagesize=A4, leftMargin=18*mm, rightMargin=18*mm, topMargin=16*mm, bottomMargin=17*mm, title="Egg segmentation and tracking - report", author="K Pradeep Kumar").build(s, onFirstPage=footer, onLaterPages=footer)
 print("built")
